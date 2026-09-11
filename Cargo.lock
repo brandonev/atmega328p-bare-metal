@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "uno-systems-lab"
+name = "atmega328p-bare-metal"
 version = "0.1.0"
