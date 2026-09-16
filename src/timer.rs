@@ -8,6 +8,8 @@ const OCR1AL: *mut u8 = 0x88 as *mut u8;
 const OCR1AH: *mut u8 = 0x89 as *mut u8;
 const TIFR1: *mut u8 = 0x36 as *mut u8;
 const TIMSK1: *mut u8 = 0x6F as *mut u8;
+const TCNT1L: *mut u8 = 0x84 as *mut u8;
+const TCNT1H: *mut u8 = 0x85 as *mut u8;
 const ICR1L: *mut u8 = 0x86 as *mut u8;
 const ICR1H: *mut u8 = 0x87 as *mut u8;
 
@@ -121,6 +123,16 @@ impl Timer1 {
             let low = read_volatile(ICR1L) as u16;
             let high = read_volatile(ICR1H) as u16;
 
+            (high << 8) | low
+        }
+    }
+
+    /// Returns the current Timer1 counter value
+    pub fn counter_value(&self) -> u16 {
+        unsafe {
+            //Reading the low byte first locks complete 16 bit value
+            let low = read_volatile(TCNT1L) as u16;
+            let high = read_volatile(TCNT1H) as u16;
             (high << 8) | low
         }
     }
